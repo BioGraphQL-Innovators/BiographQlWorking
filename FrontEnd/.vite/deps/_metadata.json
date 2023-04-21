@@ -1,0 +1,56 @@
+{
+  "hash": "ed970280",
+  "browserHash": "95d6a01f",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "f91f9615",
+      "needsInterop": true
+    },
+    "react-dom": {
+      "src": "../../node_modules/react-dom/index.js",
+      "file": "react-dom.js",
+      "fileHash": "26d9ed25",
+      "needsInterop": true
+    },
+    "@apollo/client": {
+      "src": "../../node_modules/@apollo/client/index.js",
+      "file": "@apollo_client.js",
+      "fileHash": "4a2fa0b5",
+      "needsInterop": false
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "d95e713f",
+      "needsInterop": false
+    },
+    "react-bootstrap": {
+      "src": "../../node_modules/react-bootstrap/esm/index.js",
+      "file": "react-bootstrap.js",
+      "fileHash": "920f6332",
+      "needsInterop": false
+    },
+    "prop-types": {
+      "src": "../../node_modules/prop-types/index.js",
+      "file": "prop-types.js",
+      "fileHash": "fc4db3fd",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-NREMUTAN": {
+      "file": "chunk-NREMUTAN.js"
+    },
+    "chunk-ST3U5LCA": {
+      "file": "chunk-ST3U5LCA.js"
+    },
+    "chunk-SXSBFBEE": {
+      "file": "chunk-SXSBFBEE.js"
+    },
+    "chunk-DFKQJ226": {
+      "file": "chunk-DFKQJ226.js"
+    }
+  }
+}
