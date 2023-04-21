@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { Link, useNavigate } from 'react-router-dom';
 import { Table, Button, Alert } from 'react-bootstrap';
-import { GET_PATIENTS, DELETE_PATIENT } from '../graphql/queries';
+import { GET_PATIENTS, DELETE_PATIENT } from '../graphlql/queries';
 
 const PatientData = () => {
   const [query, setQuery] = useState('');
   const { data, error, refetch } = useQuery(GET_PATIENTS);
-  //   const [addPatient] = useMutation(CREATE_PATIENT);
-  //   const [updatePatient] = useMutation(UPDATE_PATIENT);
+  // const [addPatient] = useMutation(CREATE_PATIENT);
+  // const [updatePatient] = useMutation(UPDATE_PATIENT);
   const [deletePatient] = useMutation(DELETE_PATIENT);
   const navigate = useNavigate();
 
@@ -42,7 +42,7 @@ const PatientData = () => {
       <Table hover>
         <thead>
           <tr>
-            <th>ID</th>
+            {/* <th>ID</th> */}
             <th>First Name</th>
             <th>Last Name</th>
             <th>Age</th>
@@ -76,7 +76,7 @@ const PatientData = () => {
             })
             .map((patient) => (
               <tr key={patient.id}>
-                <td>{patient.id}</td>
+                {/* <td>{patient.id}</td> */}
                 <td>{patient.firstName}</td>
                 <td>{patient.lastName}</td>
                 <td>{patient.age}</td>

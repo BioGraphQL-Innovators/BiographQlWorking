@@ -13,10 +13,13 @@ const LoginUser = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log('email of user: ', email);
+    console.log('password of user: ', password);
+    const input = { email, password };
+    console.log('input object: ', input);
     try {
       setError(null);
-      const { data } = await loginUser({ variables: { email, password } });
+      const { data } = await loginUser({ variables: { input } });
       localStorage.setItem('token', data.loginUser);
       navigate('/patientdata');
     } catch (error) {
