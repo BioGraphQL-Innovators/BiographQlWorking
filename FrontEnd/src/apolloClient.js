@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
 const httpLink = createHttpLink({
-  uri: 'https://biographql.onrender.com/graphql', // Make sure this is the correct server endpoint
+  uri: 'https://biographql.onrender.com', // Make sure this is the correct server endpoint
 });
 
 const authLink = setContext((_, { headers }) => {
