@@ -13,7 +13,17 @@ enum UserRole {
     token: String
   }
   
+  type AuthPayload {
+    token: String!
+    user: User!
+  }
+  
   input UserInput {
+    email: String!
+    password: String!
+  }
+  
+  input UserRegistrationInput {
     email: String!
     password: String!
     role: UserRole!
@@ -26,10 +36,9 @@ enum UserRole {
   }
   
   type Mutation {
-    registerUser(input: UserInput!): User
-    loginUser(input: UserInput!): String
+    registerUser(input: UserRegistrationInput!): User
+    loginUser(input: UserInput!): AuthPayload!
   }
-  
 `;
 
 export default User;

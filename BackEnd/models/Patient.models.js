@@ -30,10 +30,10 @@ const patientSchema = new Schema({
     required: true,
     unique: true,
   },
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
+  email: {
+    type: String,
     required: true,
+    unique: true,
   },
 });
 

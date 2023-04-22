@@ -54,7 +54,7 @@ export const userResolver = {
           },
         };
 
-        const token = jwt.sign(payload, jwtSecret, { expiresIn: '1h' });
+        const token = jwt.sign(payload, jwtSecret, { expiresIn: '7d' });
 
         return {
           ...user._doc,
@@ -89,7 +89,15 @@ export const userResolver = {
           if (error) {
             reject(error);
           } else {
-            resolve(token);
+            // Remove password from the returned user object
+            user = user.toObject();
+            delete user.password;
+            // Set the id field to the _id value
+            user.id = user._id;
+            delete user._id;
+
+            // Resolve both the token and the user object
+            resolve({ token, user });
           }
         });
       });

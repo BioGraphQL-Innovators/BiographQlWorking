@@ -10,7 +10,7 @@ const Patient = gql`
     gender: String!
     address: String!
     mobile: String!
-    email: String!
+    email: String
   }
 
   input PatientInput {

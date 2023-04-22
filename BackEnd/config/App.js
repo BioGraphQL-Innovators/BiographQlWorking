@@ -12,8 +12,12 @@ import { patientResolver } from '../resolvers/Patient.js';
 import PatientTypeDefs from '../models/Patient.graphql.js';
 import { createRequire } from 'module';
 import { getUserFromToken } from '../utils/auth.js';
+import { Vitals as VitalsTypeDefs } from '../models/Vitals.graphql.js';
+import { vitalsResolvers } from '../resolvers/Vitals.js';
+import { GraphQLDateTime } from 'graphql-scalars';
 
 const require = createRequire(import.meta.url);
+const { DateTime } = require('graphql-scalars');
 const expressJwt = require('express-jwt');
 
 const { connect, connection } = mongoose;
@@ -38,7 +42,12 @@ const jwtMiddleware = expressJwt({
   secret: jwtSecret,
   algorithms: ['HS256'],
   credentialsRequired: false,
-});
+  getToken: function fromHeaderOrQuerystring(req) {
+    // Log the token
+    console.log('Token from headers:', req.headers.authorization);
+    return req.headers.authorization;
+  },
+}).unless({ path: ['/graphql'] }); // Add this line to exclude the '/graphql' path from jwtMiddleware
 
 app.use(jwtMiddleware);
 
@@ -46,14 +55,23 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const viewsPath = resolve(__dirname, '../views');
 
-const typeDefs = [UserTypeDefs, PatientTypeDefs];
-const resolvers = [userResolver, patientResolver];
+const typeDefs = [UserTypeDefs, PatientTypeDefs, VitalsTypeDefs];
+const resolvers = [
+  {
+    Date: GraphQLDateTime,
+  },
+  userResolver,
+  patientResolver,
+  vitalsResolvers,
+];
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 const context = ({ req }) => {
   const token = req.headers.authorization || '';
+  console.log('Token from headers:', token);
   const user = getUserFromToken(token);
+  console.log('User from token:', user);
   return { user };
 };
 
@@ -77,5 +95,9 @@ startApolloServer();
 
 app.set('views', viewsPath);
 app.set('view engine', 'ejs');
-
+const expressGraphQL = require('express-graphql').graphqlHTTP
+app.use('/test',cors(), expressGraphQL({
+  schema: schema,
+  graphiql: true
+  }));
 export default app;

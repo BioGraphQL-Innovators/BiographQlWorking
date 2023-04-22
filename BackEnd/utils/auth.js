@@ -8,9 +8,12 @@ const getUserFromToken = (token) => {
   if (!token) return null;
 
   try {
+    console.log('Token from headers:', token); // Add this line to log the token
     const decoded = jwt.verify(token.split(' ')[1], jwtSecret);
+    console.log('Decoded token:', decoded); // Add this line to log the decoded token
     return decoded.user;
   } catch (error) {
+    console.error('Error decoding token:', error); // Add this line to log any error during decoding
     return null;
   }
 };
