@@ -5,12 +5,12 @@ import { Container, Image } from 'react-bootstrap';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 // import { Table, Button, Alert } from 'react-bootstrap';
-function CovidCheck() {
-  const history = useHistory();
+function PatientView() {
+    const history = useHistory();
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {
-      history.push('/login');
+        history.push('/login');
     }
   }, [history]);
 
@@ -26,4 +26,4 @@ function CovidCheck() {
   );
 }
 
-export default CovidCheck;
+export default PatientView;

@@ -1,61 +1,86 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../graphlql/mutations';
-import { Container, Form, Button, Alert } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import AuthContext from '../AuthContext';
+import { LOGIN_USER } from '../graphqls/mutations';
 
-const LoginUser = () => {
+const LoginUser = (props) => {
   const [loginUser] = useMutation(LOGIN_USER);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const history = useHistory();
+
+  const { onLogout } = props;
+
+  const { setIsLoggedIn, setUserRole } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('email of user: ', email);
-    console.log('password of user: ', password);
     const input = { email, password };
-    console.log('input object: ', input);
     try {
       setError(null);
       const { data } = await loginUser({ variables: { input } });
-      localStorage.setItem('token', data.loginUser);
-      navigate('/patientdata');
+
+      if (data.loginUser) {
+        localStorage.setItem('token', data.loginUser.token);
+        localStorage.setItem('role', data.loginUser.user.role);
+        setIsLoggedIn(true);
+        setUserRole(data.loginUser.user.role);
+
+        if (typeof onLogout === 'function') {
+          onLogout();
+        }
+
+        if (data.loginUser.user.role === 'PATIENT') {
+          history.push('/patientview');
+        } else {
+          history.push('/patientdata');
+        }
+      }
     } catch (error) {
       console.log('Error logging in user', error);
       setError('Invalid credentials. Please try again.');
     }
   };
 
+  LoginUser.propTypes = {
+    onLogout: PropTypes.func,
+  };
+
   return (
-    <Container>
+    <form onSubmit={handleSubmit}>
       <h2>Login</h2>
-      {error && <Alert variant='danger'>{error}</Alert>}
-      <Form onSubmit={handleSubmit}>
-        <Form.Group className='mb-3'>
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </Form.Group>
-
-        <Form.Group className='mb-3'>
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
-
-        <Button variant='primary' type='submit'>
-          Login
-        </Button>
-      </Form>
-    </Container>
+      {error && <div className="alert alert-danger">{error}</div>}
+      <div className="mb-3">
+        <label htmlFor="email" className="form-label">
+          Email address
+        </label>
+        <input
+          type="email"
+          className="form-control"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="password" className="form-label">
+          Password
+        </label>
+        <input
+          type="password"
+          className="form-control"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+      <button type="submit" className="btn btn-primary">
+        Login
+      </button>
+    </form>
   );
 };
 

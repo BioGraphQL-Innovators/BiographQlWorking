@@ -1,15 +1,17 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from '@apollo/client';
 import client from './apolloClient';
+import { AuthProvider } from './AuthContext';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ApolloProvider client={client}>
+  <ApolloProvider client={client}>
+    <AuthProvider>
       <App />
-    </ApolloProvider>
-  </React.StrictMode>,
+    </AuthProvider>
+  </ApolloProvider>,
   document.getElementById('root')
 );

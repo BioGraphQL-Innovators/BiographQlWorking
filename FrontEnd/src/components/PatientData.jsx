@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useHistory  } from 'react-router-dom';
 import { Table, Button, Alert } from 'react-bootstrap';
-import { GET_PATIENTS, DELETE_PATIENT } from '../graphlql/queries';
+import { GET_PATIENTS, DELETE_PATIENT } from '../graphqls/queries';
 
 const PatientData = () => {
   const [query, setQuery] = useState('');
@@ -10,13 +10,13 @@ const PatientData = () => {
   // const [addPatient] = useMutation(CREATE_PATIENT);
   // const [updatePatient] = useMutation(UPDATE_PATIENT);
   const [deletePatient] = useMutation(DELETE_PATIENT);
-  const navigate = useNavigate();
+  const history = useHistory();
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {
-      navigate('/login');
+      history.push('/login');
     }
-  }, [navigate]);
+  }, [history]);
 
   if (error) return <Alert variant='danger'>Error fetching data</Alert>;
 

@@ -1,19 +1,20 @@
-import { useState } from 'react';
+// eslint-disable-next-line no-unused-vars
+import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
-import { REGISTER_USER } from '../graphlql/mutations';
+import { REGISTER_USER } from '../graphqls/mutations';
+import { useHistory } from 'react-router-dom';
 import {
   Container,
   Form,
   Button,
+  Alert,
   DropdownButton,
   Dropdown,
-  Alert,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 const RegisterUser = ({ onRegister }) => {
-  const navigate = useNavigate();
+  const history = useHistory(); // Use the useHistory hook
   const [registerUser] = useMutation(REGISTER_USER);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,7 +33,7 @@ const RegisterUser = ({ onRegister }) => {
 
       alert('User registered successfully! Redirecting to login...');
       setTimeout(() => {
-        navigate('/login');
+        history.push('/login'); // Use history.push instead of navigate
       }, 1000);
     } catch (error) {
       console.log('Error registering user', error);
@@ -47,7 +48,6 @@ const RegisterUser = ({ onRegister }) => {
       }
     }
   };
-
   return (
     <Container>
       <h2>Register</h2>

@@ -3,20 +3,20 @@ import React from 'react';
 import nurseImage from '../assets/nurse.gif';
 import { Container, Image } from 'react-bootstrap';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 // import { Table, Button, Alert } from 'react-bootstrap';
 function Motivate() {
-  const navigate = useNavigate();
+  const history = useHistory();
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {
-      navigate('/login');
+      history.push('/login');
     }
-  }, [navigate]);
+  }, [history]);
 
   return (
     <Container className='text-center'>
-      <h1>Motivate Patients</h1>
+      <h1>Vital Signs Information</h1>
       <p>
         We are dedicated to providing the best healthcare services to our
         patients.
