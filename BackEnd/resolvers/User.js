@@ -31,36 +31,6 @@ export const userResolver = {
     },
   },
   Mutation: {
-    
-    loginUser: async (_, { input }) => {
-      const { email, password } = input;
-
-      let user = await User.findOne({ email });
-      if (!user) {
-        throw new Error('Invalid credentials');
-      }
-
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        throw new Error('Invalid credentials');
-      }
-
-      const payload = {
-        user: {
-          id: user.id,
-        },
-      };
-
-      return new Promise((resolve, reject) => {
-        jwt.sign(payload, jwtSecret, { expiresIn: 360000 }, (error, token) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(token);
-          }
-        });
-      });
-    },
     registerUser: async (_, { input }) => {
       const { email, password, role } = input;
 
@@ -94,6 +64,35 @@ export const userResolver = {
       } catch (error) {
         throw error;
       }
-    }
+    },
+    loginUser: async (_, { input }) => {
+      const { email, password } = input;
+
+      let user = await User.findOne({ email });
+      if (!user) {
+        throw new Error('Invalid credentials');
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        throw new Error('Invalid credentials');
+      }
+
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
+
+      return new Promise((resolve, reject) => {
+        jwt.sign(payload, jwtSecret, { expiresIn: 360000 }, (error, token) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(token);
+          }
+        });
+      });
+    },
   },
 };

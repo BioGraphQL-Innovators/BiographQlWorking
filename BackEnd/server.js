@@ -1,17 +1,6 @@
-//<<<<<<< Updated upstream
-/* eslint-disable no-console */
-//const express = require('express');
-//require('dotenv').config();
-
-//const { PORT } = process.env;
-
-// Connect to MongoDB
-//require('./app/db');
-//=======
 import app from './config/App.js';
 import { createServer } from 'http';
 import dotenv from 'dotenv';
-//>>>>>>> Stashed changes
 
 //environment variables
 dotenv.config();
@@ -19,9 +8,6 @@ dotenv.config();
 // Get port from environment and store in Express.
 const PORT = normalizePort(process.env.PORT || '3200');
 
-//<<<<<<< Updated upstream
-//app.listen(PORT, () => console.log(`Backend running on port:${PORT}..`));
-//=======
 app.set('port', PORT);
 
 const server = createServer(app);
@@ -92,4 +78,3 @@ function onListening() {
 
 //export port function
 export default PORT;
-//>>>>>>> Stashed changes
